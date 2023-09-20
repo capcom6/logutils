@@ -15,7 +15,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/hashicorp/logutils"
+	"github.com/capcom6/logutils"
 )
 
 func main() {
@@ -34,3 +34,27 @@ func main() {
 ```
 
 This logs to standard error exactly like go's standard logger. Any log messages you haven't converted to have a level will continue to print as before.
+
+## Default filter
+
+You can also use the default filter named `DefaultLevelFilter` as follows:
+
+```go
+package main
+
+import (
+	"log"
+
+	"github.com/capcom6/logutils"
+)
+
+func main() {
+	log.SetOutput(logutils.DefaultLevelFilter)
+
+	logutils.Debug("Debugging") // this will not print
+	logutils.Warn("[WARN] Warning") // this will
+	logutils.Error("[ERROR] Erring") // and so will this
+	logutils.Print("Message I haven't updated") // and so will this
+}
+
+```

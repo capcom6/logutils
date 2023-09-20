@@ -1,1 +1,3 @@
-module github.com/hashicorp/logutils
+module github.com/capcom6/logutils
+
+go 1.18
