@@ -36,17 +36,37 @@ func (f *LevelFilter) Check(line []byte) bool {
 	f.once.Do(f.init)
 
 	// Check for a log level
-	var level LogLevel
-	x := bytes.IndexByte(line, '[')
-	if x >= 0 {
-		y := bytes.IndexByte(line[x:], ']')
-		if y >= 0 {
-			level = LogLevel(line[x+1 : x+y])
+	i := 0
+	for i < len(line) {
+		x := bytes.IndexByte(line[i:], '[')
+		if x == -1 {
+			break
 		}
+		y := bytes.IndexByte(line[i+x:], ']')
+		if y == -1 {
+			break
+		}
+
+		if _, ok := f.badLevels[LogLevel(line[i+x+1:i+x+y])]; ok {
+			return false
+		}
+
+		i += y
 	}
 
-	_, ok := f.badLevels[level]
-	return !ok
+	return true
+
+	// var level LogLevel
+	// x := bytes.IndexByte(line, '[')
+	// if x >= 0 {
+	// 	y := bytes.IndexByte(line[x:], ']')
+	// 	if y >= 0 {
+	// 		level = LogLevel(line[x+1 : x+y])
+	// 	}
+	// }
+
+	// _, ok := f.badLevels[level]
+	// return !ok
 }
 
 func (f *LevelFilter) Write(p []byte) (n int, err error) {
