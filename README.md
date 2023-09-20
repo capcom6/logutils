@@ -52,8 +52,8 @@ func main() {
 	log.SetOutput(logutils.DefaultLevelFilter)
 
 	logutils.Debug("Debugging") // this will not print
-	logutils.Warn("[WARN] Warning") // this will
-	logutils.Error("[ERROR] Erring") // and so will this
+	logutils.Warn("Warning") // this will
+	logutils.Error("Erring") // and so will this
 	logutils.Print("Message I haven't updated") // and so will this
 }
 
